@@ -38,12 +38,16 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'posttitle' => ['required', 'min:2', 'max:191'],
             'postcontent' => ['required', 'max: 255']
         ]);
 
-        return $request;
+        $post = new Post();
+        $post->title = $request->input('posttitle');
+        $post->content = $request->input('postcontent');
+        $post->save();
+        return redirect('/posts')->with('success', 'Post created!');
     }
 
     /**
