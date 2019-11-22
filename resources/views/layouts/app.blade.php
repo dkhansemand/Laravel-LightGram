@@ -20,7 +20,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark text-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -32,8 +32,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
+                        @if( Auth::check() )
+                            <li class="nav-item mr-2">
                                 <a class="nav-link btn btn-success text-white" href="/posts/create">Create post</a>
+                            </li>
+                        @endif
+                            <li>
+                                <a class="nav-link" href="/posts">Posts</a>
                             </li>
                     </ul>
 
@@ -56,6 +61,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="/home">Dashboard</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -73,7 +79,7 @@
             </div>
         </nav>
 
-        <main class="container py-4">
+        <main class="container py-4 text-white">
             @include('inc.messages')
             @yield('content')
         </main>
