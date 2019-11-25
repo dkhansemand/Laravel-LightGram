@@ -4,7 +4,7 @@
     <h1>Create a post</h1>
     <div class="row">
         <div class="col-6">
-            <form method="POST" action="/posts" enctype="multipart/formdata">
+            <form method="POST" action="/posts" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label for="postTitle">Title</label>
