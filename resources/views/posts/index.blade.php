@@ -7,7 +7,7 @@
         @foreach ($posts as $post)
             <div class="col-3 mt-2">
                 <div class="card bg-dark" style="width: 15rem;">
-                    <img src="//placehold.it/400x400" class="card-img-top" alt="{{ $post->title }}">
+                    <img src="/storage/cover_images/{{ $post->cover_image }}" class="card-img-top" alt="{{ $post->title }}">
                     <div class="card-body">
                         <h5 class="card-title"><a href="posts/{{$post->id}}" >{{ $post->title }}</a></h5>
                         <p class="card-text">{{ $post->content }}</p>

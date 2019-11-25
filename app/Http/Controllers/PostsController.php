@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Post;
 
 class PostsController extends Controller
@@ -58,9 +59,9 @@ class PostsController extends Controller
 
         if($request->hasFile('cover_image'))
         {
-            $fileNameWithExt = $request->file('cover_image')->getClientOriginalImage();
+            $fileNameWithExt = $request->file('cover_image')->getClientOriginalName();
             $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
-            $extension = $request->file('cover_image')->getOriginalClientExtension();
+            $extension = $request->file('cover_image')->getClientOriginalExtension();
             $filenameToStore = $filename . '_' . time() . '.' . $extension;
             $path = $request->file('cover_image')->storeAs('public/cover_images', $filenameToStore);
 
@@ -126,8 +127,24 @@ class PostsController extends Controller
         $post = Post::Find($id);
         if(Auth::user()->id === $post->user_id)
         {
+
+            if($request->hasFile('cover_image'))
+            {
+                $fileNameWithExt = $request->file('cover_image')->getClientOriginalName();
+                $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+                $extension = $request->file('cover_image')->getClientOriginalExtension();
+                $filenameToStore = $filename . '_' . time() . '.' . $extension;
+                $path = $request->file('cover_image')->storeAs('public/cover_images', $filenameToStore);
+
+
+            }
+
             $post->title = $request->title;
             $post->content = $request->content;
+            if($request->hasFile('cover_image'))
+            {
+                $post->cover_image = $filenameToStore;
+            }
             $post->save();
 
             return redirect('/posts/' . $id)->with('success', 'Post updated!');
@@ -149,6 +166,8 @@ class PostsController extends Controller
         $post = Post::find($id);
         if(Auth::user()->id === $post->user_id)
         {
+            Storage::delete('/public/cover_images/' . $post->cover_image);
+
             $post->delete();
             return redirect('/posts')->with('success', 'Post deleted!');
         }else{

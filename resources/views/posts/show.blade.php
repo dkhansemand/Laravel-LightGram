@@ -5,6 +5,7 @@
     <div class="card bg-dark">
         <h5 class="card-header">{{ $post->title }}</h5>
         <div class="card-body">
+            <img src="/storage/cover_images/{{ $post->cover_image }}" />
             <p class="card-text">{{ $post->content }}</p>
             @if( Auth::check() )
                 <a href="#" class="btn btn-primary">+1 lamp</a>
